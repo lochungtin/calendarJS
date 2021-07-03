@@ -84,6 +84,14 @@ class Calendar {
     // static methods
 
     /**
+     * check if given month is an odd month (months with 31 days)
+     * @param {number} month    - month value
+     * @returns {boolean}       - is odd month
+     */
+    static isOddMonth = (month: number): boolean =>
+        ((month > 7) && (month % 2 === 0)) || ((month < 8) && (month % 2 === 1));
+
+    /**
      * check if given year is a leap year
      * @param {number} year - year value
      * @returns {boolean}   - is leap year
@@ -161,9 +169,6 @@ class Calendar {
             this.grid[row][col] = `${this.appendZero(obj.date)}-${this.appendZero(obj.month)}-${obj.year}`;
         }
     }
-
-    private static isOddMonth = (month: number): boolean =>
-        ((month > 7) && (month % 2 === 0)) || ((month < 8) && (month % 2 === 1));
 }
 
 export = Calendar;
