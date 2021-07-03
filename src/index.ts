@@ -102,8 +102,7 @@ class Calendar {
             if (this.grid[row] === undefined)
                 this.grid[row] = [];
 
-            // this.grid[row][col] = `${this.appendZero(obj.date)}-${this.appendZero(obj.month)}-${obj.year}`;
-            this.grid[row][col] = this.appendZero(obj.date);
+            this.grid[row][col] = `${this.appendZero(obj.date)}-${this.appendZero(obj.month)}-${obj.year}`;
         }
     }
 
