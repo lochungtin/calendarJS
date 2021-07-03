@@ -1,10 +1,17 @@
 class Calendar {
 
+    // position values
     private year: number;
     private month: number;
 
+    // grid
     private grid: Array<Array<string>> = [];
 
+    /**
+     * creates new calendar object
+     * @param {number} year     - year value
+     * @param {number} month    - month value
+     */
     constructor(year: number, month: number) {
         this.year = year;
         this.month = month;
@@ -12,14 +19,34 @@ class Calendar {
         this.genGrid();
     }
 
+    /**
+     * checks if the current year of the calendar object is a leap year
+     * @returns {boolean}   - is leap year
+     */
     isLeapYear = (): boolean => Calendar.isLeapYear(this.year);
 
+    /**
+     * retrieves the 2 by 2 array representation of the calendar object
+     * @returns {Array<Array<string>>}  - calendar array
+     */
     getGrid = (): Array<Array<string>> => this.grid;
 
+    /**
+     * retrieve the next month's value of the calendar object
+     * @returns {{ year: number, month: number }}   - calendar position pair
+     */
     getNextMonth = (): { year: number, month: number } => Calendar.getNextMonth(this.year, this.month);
 
+    /**    
+     * retrieve the previous month's value of the calendar object
+     * @returns {{ year: number, month: number }}   - calendar position pair
+     */
     getPrevMonth = (): { year: number, month: number } => Calendar.getPrevMonth(this.year, this.month);
 
+    /**
+     * increments the calendar month by 1
+     * year is incremented if current month is 12
+     */
     nextMonth = (): void => {
         let monthConfig: { year: number, month: number } = this.getNextMonth();
 
@@ -29,6 +56,10 @@ class Calendar {
         this.genGrid();
     }
 
+    /**
+     * decrements the calendar month by 1 
+     * year is decremented if the current month is 1
+     */
     prevMonth = (): void => {
         let monthConfig: { year: number, month: number } = this.getPrevMonth();
 
@@ -38,6 +69,11 @@ class Calendar {
         this.genGrid();
     }
 
+    /**
+     * set the calendar object to be at a specific position
+     * @param {number} year     - year value
+     * @param {number} month    - month value
+     */
     setMonth = (year: number, month: number): void => {
         this.year = year;
         this.month = month;
@@ -47,13 +83,21 @@ class Calendar {
 
     // static methods
 
+    /**
+     * check if given year is a leap year
+     * @param {number} year - year value
+     * @returns {boolean}   - is leap year
+     */
     static isLeapYear = (year: number): boolean => ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 
+    /**
+     * retrieve the numbers of days in a specific month
+     * @param {number} year     - year value 
+     * @param {number} month    - month value
+     * @returns {number}        - number of days
+     */
     static getDateNum = (year: number, month: number): number => {
-        let base = 28;
-
-        if (month !== 2)
-            base += 2;
+        let base = month === 2 ? 28 : 30;
 
         if (Calendar.isOddMonth(month) || month === 2 && Calendar.isLeapYear(year))
             base += 1;
@@ -61,11 +105,23 @@ class Calendar {
         return base;
     }
 
+    /**
+     * retrieve the next calendar position given a specific calendar position
+     * @param {number} year                         - year value 
+     * @param {number} month                        - month value 
+     * @returns {{ year: number, month: number }}   - calendar position pair
+     */
     static getNextMonth = (year: number, month: number): { year: number, month: number } => ({
         month: month % 12 + 1,
         year: year + Math.floor(month / 12),
     });
 
+    /**
+     * retrieve the previous calendar position given a specific calendar position
+     * @param {number} year                         - year value 
+     * @param {number} month                        - month value 
+     * @returns {{ year: number, month: number }}   - calendar position pair
+     */
     static getPrevMonth = (year: number, month: number): { year: number, month: number } => ({
         month: Math.floor(1 / month) * 12 + month - 1,
         year: year - Math.floor(1 / month),
