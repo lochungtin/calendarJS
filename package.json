@@ -1,6 +1,6 @@
 {
   "name": "@enigmaoffline/calendarjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple calendar grid generator for NodeJS",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,8 +10,13 @@
   "scripts": {
     "build": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lochungtin/calendarJS.git"
+  },
   "keywords": [
-    "calendar"
+    "calendar",
+    "generator"
   ],
   "author": "enigmaoffline",
   "license": "MIT"
