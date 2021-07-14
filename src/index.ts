@@ -1,8 +1,8 @@
 class Calendar {
 
     // position values
-    private year: number;
-    private month: number;
+    year: number;
+    month: number;
 
     // grid
     private grid: Array<Array<string>> = [];
