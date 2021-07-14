@@ -1,6 +1,6 @@
 {
   "name": "@enigmaoffline/calendarjs",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Simple calendar grid generator for NodeJS",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

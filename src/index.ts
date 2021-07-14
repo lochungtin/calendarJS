@@ -16,7 +16,7 @@ class Calendar {
         this.year = year;
         this.month = month;
 
-        this.genGrid();
+        this.grid = [...this.genGrid()];
     }
 
     /**
@@ -24,6 +24,41 @@ class Calendar {
      * @returns {boolean}   - is leap year
      */
     isLeapYear = (): boolean => Calendar.isLeapYear(this.year);
+
+    /**
+     * generates the grid object
+     */
+    genGrid = (): Array<Array<string>> => {
+        let startDay: number = new Date(`${this.year}-${this.appendZero(this.month)}-01`).getDay();
+        let dayCount: number = Calendar.getDateNum(this.year, this.month);
+        let cellCount: number = Math.ceil((startDay + dayCount) / 7) * 7;
+
+        let prevMonth: { year: number, month: number } = Calendar.getPrevMonth(this.year, this.month);
+        let nextMonth: { year: number, month: number } = Calendar.getNextMonth(this.year, this.month);
+        let gridStart: number = Calendar.getDateNum(this.year, prevMonth.month) - startDay + 1;
+
+        let grid: Array<Array<string>> = [];
+
+        for (let i = 0; i < cellCount; ++i) {
+            let row: number = Math.floor(i / 7);
+            let col: number = i % 7;
+
+            let obj: { date: number, month: number, year: number };
+            if (row == 0 && i < startDay)
+                obj = { date: gridStart++, month: prevMonth.month, year: prevMonth.year };
+            else if (i < startDay + dayCount)
+                obj = { date: i - startDay + 1, month: this.month, year: this.year };
+            else
+                obj = { date: i - (startDay + dayCount) + 1, month: nextMonth.month, year: nextMonth.year };
+
+            if (grid[row] === undefined)
+                grid[row] = [];
+
+            grid[row][col] = `${this.appendZero(obj.date)}-${this.appendZero(obj.month)}-${obj.year}`;
+        }
+
+        return grid;
+    }
 
     /**
      * retrieves the 2 by 2 array representation of the calendar object
@@ -53,7 +88,7 @@ class Calendar {
         this.year = monthConfig.year;
         this.month = monthConfig.month;
 
-        this.genGrid();
+        this.grid = [...this.genGrid()];
     }
 
     /**
@@ -66,7 +101,7 @@ class Calendar {
         this.year = monthConfig.year;
         this.month = monthConfig.month;
 
-        this.genGrid();
+        this.grid = [...this.genGrid()];
     }
 
     /**
@@ -78,7 +113,7 @@ class Calendar {
         this.year = year;
         this.month = month;
 
-        this.genGrid();
+        this.grid = [...this.genGrid()];
     }
 
     // static methods
@@ -139,36 +174,6 @@ class Calendar {
     // private methods
 
     private appendZero = (value: number) => ('0' + value.toString()).slice(-2);
-
-    private genGrid = (): void => {
-        let startDay: number = new Date(`${this.year}-${this.month}-01`).getDay();
-        let dayCount: number = Calendar.getDateNum(this.year, this.month);
-        let cellCount: number = Math.ceil((startDay + dayCount) / 7) * 7;
-
-        let prevMonth: { year: number, month: number } = Calendar.getPrevMonth(this.year, this.month);
-        let nextMonth: { year: number, month: number } = Calendar.getNextMonth(this.year, this.month);
-        let gridStart: number = Calendar.getDateNum(this.year, prevMonth.month) - startDay + 1;
-
-        this.grid = [];
-
-        for (let i = 0; i < cellCount; ++i) {
-            let row: number = Math.floor(i / 7);
-            let col: number = i % 7;
-
-            let obj: { date: number, month: number, year: number };
-            if (row == 0 && i < startDay)
-                obj = { date: gridStart++, month: prevMonth.month, year: prevMonth.year };
-            else if (i < startDay + dayCount)
-                obj = { date: i - startDay + 1, month: this.month, year: this.year };
-            else
-                obj = { date: i - (startDay + dayCount) + 1, month: nextMonth.month, year: nextMonth.year };
-
-            if (this.grid[row] === undefined)
-                this.grid[row] = [];
-
-            this.grid[row][col] = `${this.appendZero(obj.date)}-${this.appendZero(obj.month)}-${obj.year}`;
-        }
-    }
 }
 
 export = Calendar;
